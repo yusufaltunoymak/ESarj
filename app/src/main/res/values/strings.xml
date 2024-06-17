@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ESarj</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="yol_tarifi_text">Yol Tarifi</string>
+    <string name="not_found_text">Eşleşen Arama Sonucu Bulunamadı</string>
+    <string name="en_yakin_sarj_istasyonlari">En Yakın Şarj İstasyonları</string>
 </resources>

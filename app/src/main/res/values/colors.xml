@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="blue">#0A84FF</color>
+    <color name="green">#4CAF50</color>
+    <color name="orange">#FF5722</color>
+    <color name="red">#C30505</color>
+    <color name="light_grey">#F8F8F8</color>
+    <color name="marker_background">#FFFFFF</color>
+    <color name="marker_border">#000000</color>
 </resources>
