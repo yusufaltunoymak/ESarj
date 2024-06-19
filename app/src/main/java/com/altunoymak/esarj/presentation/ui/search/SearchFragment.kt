@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -23,7 +24,7 @@ class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SearchViewModel by viewModels()
+    private val viewModel: SearchViewModel by activityViewModels()
     private lateinit var adapter: SearchAdapter
 
     override fun onCreateView(
@@ -79,8 +80,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = SearchAdapter {
-            val action = SearchFragmentDirections.actionSearchFragmentToMapsFragment(it)
+        adapter = SearchAdapter {suggestion ->
+            viewModel.selectSuggestion(suggestion)
+            val action = SearchFragmentDirections.actionSearchFragmentToMapsFragment()
             findNavController().navigate(action)
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

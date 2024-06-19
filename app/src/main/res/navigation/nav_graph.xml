@@ -27,10 +27,9 @@
         <action
             android:id="@+id/action_mapsFragment_to_nearestStationsFragment"
             app:destination="@id/nearestStationsFragment" />
-        <argument
-            android:name="suggestion"
-            app:argType="com.altunoymak.esarj.data.model.searchstation.Suggestion"
-            app:nullable="true" />
+        <action
+            android:id="@+id/action_mapsFragment_to_favoriteStationFragment2"
+            app:destination="@id/favoriteStationFragment2" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -57,4 +56,13 @@
         android:id="@+id/stationDetailBottomSheet"
         android:name="com.altunoymak.esarj.presentation.ui.map.StationDetailBottomSheet"
         android:label="StationDetailBottomSheet" />
+    <fragment
+        android:id="@+id/favoriteStationFragment2"
+        android:name="com.altunoymak.esarj.presentation.ui.favorite.FavoriteStationFragment"
+        android:label="fragment_favorite_station"
+        tools:layout="@layout/fragment_favorite_station" >
+        <action
+            android:id="@+id/action_favoriteStationFragment2_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
 </navigation>

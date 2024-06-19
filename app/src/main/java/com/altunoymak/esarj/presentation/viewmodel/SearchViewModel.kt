@@ -1,7 +1,10 @@
 package com.altunoymak.esarj.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.altunoymak.esarj.data.model.searchstation.Suggestion
 import com.altunoymak.esarj.data.repository.ChargingStationRepository
 import com.altunoymak.esarj.presentation.ui.search.SearchViewState
 import com.altunoymak.esarj.util.ResponseStatus
@@ -19,6 +22,11 @@ class SearchViewModel @Inject constructor(private val repository: ChargingStatio
     private val _viewState = MutableStateFlow(SearchViewState())
     val viewState: StateFlow<SearchViewState> = _viewState
 
+    private val _selectedSuggestion = MutableLiveData<Suggestion>()
+    val selectedSuggestion: LiveData<Suggestion> get() = _selectedSuggestion
+    fun selectSuggestion(suggestion: Suggestion) {
+        _selectedSuggestion.value = suggestion
+    }
     fun search(query: String) {
         viewModelScope.launch {
             repository.search(query).collect { response ->
