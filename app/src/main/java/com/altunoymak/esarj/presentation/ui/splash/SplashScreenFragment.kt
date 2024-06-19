@@ -47,7 +47,7 @@ class SplashScreenFragment : Fragment() {
     }
 
     private fun navigateToMapsFragment() {
-        val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMapsFragment(null)
+        val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMapsFragment()
         findNavController().navigate(action)
     }
 

@@ -8,6 +8,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ import com.altunoymak.esarj.R
 import com.altunoymak.esarj.data.model.chargingstationdetail.DetailStation
 import com.altunoymak.esarj.databinding.FragmentMapsBinding
 import com.altunoymak.esarj.presentation.viewmodel.ChargingViewModel
+import com.altunoymak.esarj.presentation.viewmodel.SearchViewModel
 import com.altunoymak.esarj.util.ClusterItem
 import com.altunoymak.esarj.util.CustomClusterRenderer
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -49,7 +51,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private val viewModel: ChargingViewModel by activityViewModels()
-    private val args: MapsFragmentArgs by navArgs()
+    private val searchViewModel : SearchViewModel by activityViewModels()
 
     private var shouldUpdateLocation = true
     private var shouldNavigate = false
@@ -90,6 +92,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         mMap.setOnCameraIdleListener(clusterManager)
         mMap.setOnMarkerClickListener(clusterManager)
+        observeSearchResult()
 
         binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -97,15 +100,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        val suggestion = args.suggestion
-
-        val location = suggestion?.chargingStation?.location
-
-        location?.let {
-            val latLng = LatLng(it.lat!!, it.lon!!)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-            shouldUpdateLocation = false
-        }
 
         binding.zoomInButton.setOnClickListener {
             shouldUpdateLocation = true
@@ -175,9 +169,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             ) {
                 Snackbar.make(
                     binding.root,
-                    "Permission needed for location",
+                    "Konumunuza erişmek için izin vermelisiniz",
                     Snackbar.LENGTH_INDEFINITE
-                ).setAction("Give Permission") {
+                ).setAction("İzin Ver") {
                     permissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
                 }.show()
             } else {
@@ -259,7 +253,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                     }
                 }
             } else {
-                Toast.makeText(requireActivity(), "Permisson needed!", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireActivity(), "İzin Gerekli!", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -269,6 +263,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         view?.post {
             if (isAdded) {
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
+            }
+        }
+    }
+
+    private fun observeSearchResult() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            searchViewModel.selectedSuggestion.observe(viewLifecycleOwner) { suggestion ->
+                shouldUpdateLocation = false
+                val location = LatLng(suggestion.chargingStation!!.location!!.lat!!, suggestion.chargingStation.location!!.lon!!)
+                val cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 15f)
+                mMap.moveCamera(cameraUpdate)
             }
         }
     }

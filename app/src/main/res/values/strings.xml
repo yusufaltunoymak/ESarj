@@ -5,4 +5,6 @@
     <string name="yol_tarifi_text">Yol Tarifi</string>
     <string name="not_found_text">Eşleşen Arama Sonucu Bulunamadı</string>
     <string name="en_yakin_sarj_istasyonlari">En Yakın Şarj İstasyonları</string>
+    <string name="map_text">Maps</string>
+    <string name="favorite_text">Favorites</string>
 </resources>
