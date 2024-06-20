@@ -40,12 +40,12 @@
         android:layout_height="40dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/current_location_crosshair"
-        app:layout_constraintBottom_toTopOf="@+id/zoomInButton"
-        app:layout_constraintEnd_toEndOf="@+id/zoomInButton"
-        app:layout_constraintStart_toStartOf="@+id/zoomInButton" />
+        app:layout_constraintBottom_toTopOf="@+id/nearestStationButton"
+        app:layout_constraintEnd_toEndOf="@+id/nearestStationButton"
+        app:layout_constraintStart_toStartOf="@+id/nearestStationButton" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/zoomInButton"
+        android:id="@+id/nearestStationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -53,20 +53,8 @@
         android:contentDescription="nearestFuel"
         android:backgroundTint="@color/blue"
         android:src="@drawable/electric_refueling"
-        app:layout_constraintBottom_toTopOf="@+id/zoomOutButton"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/zoomOutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="12dp"
-        android:backgroundTint="@color/blue"
-        android:src="@drawable/zoom_out"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="zoomOut" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"

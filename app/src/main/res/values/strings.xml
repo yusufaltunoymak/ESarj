@@ -7,4 +7,5 @@
     <string name="en_yakin_sarj_istasyonlari">En Yakın Şarj İstasyonları</string>
     <string name="map_text">Maps</string>
     <string name="favorite_text">Favorites</string>
+    <string name="favourite_station">Favori İstasyonlarım</string>
 </resources>

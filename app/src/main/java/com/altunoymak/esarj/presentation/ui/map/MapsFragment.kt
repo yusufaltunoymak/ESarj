@@ -8,7 +8,6 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +21,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.altunoymak.esarj.R
 import com.altunoymak.esarj.data.model.chargingstationdetail.DetailStation
 import com.altunoymak.esarj.databinding.FragmentMapsBinding
+import com.altunoymak.esarj.presentation.ui.favorite.FavoriteViewModel
 import com.altunoymak.esarj.presentation.viewmodel.ChargingViewModel
 import com.altunoymak.esarj.presentation.viewmodel.SearchViewModel
 import com.altunoymak.esarj.util.ClusterItem
@@ -40,10 +39,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
 @AndroidEntryPoint
 class MapsFragment : Fragment(), OnMapReadyCallback {
-
     private lateinit var mMap: GoogleMap
     private lateinit var binding: FragmentMapsBinding
     private lateinit var locationManager: LocationManager
@@ -52,10 +49,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private val viewModel: ChargingViewModel by activityViewModels()
     private val searchViewModel : SearchViewModel by activityViewModels()
+    private val favoriteViewModel: FavoriteViewModel by activityViewModels()
 
     private var shouldUpdateLocation = true
     private var shouldNavigate = false
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,7 +89,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         mMap.setOnCameraIdleListener(clusterManager)
         mMap.setOnMarkerClickListener(clusterManager)
+        viewModel.clearChargingDetail()
         observeSearchResult()
+        observeFavoriteStation()
 
         binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -100,15 +99,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-
-        binding.zoomInButton.setOnClickListener {
+        binding.nearestStationButton.setOnClickListener {
             shouldUpdateLocation = true
             shouldNavigate = true
             permissionToLocation()
-        }
-
-        binding.zoomOutButton.setOnClickListener {
-            mMap.animateCamera(CameraUpdateFactory.zoomOut())
         }
 
         binding.currentLocationIv.setOnClickListener {
@@ -154,7 +148,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         permissionToLocation()
     }
-
     private fun permissionToLocation() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -191,8 +184,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                     binding.progressBar.visibility = View.VISIBLE
                     locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
-                        0,
-                        0f,
+                        2000L,
+                        10f,
                         locationListener
                     )
                     val lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
@@ -204,15 +197,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-
     private val locationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
             updateLocationUI(location)
 
         }
-
     }
-
     private fun updateLocationUI(location: Location) {
         binding.progressBar.visibility = View.GONE
         if (shouldUpdateLocation) {
@@ -234,9 +224,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
     }
-
-
-
     private fun registerLauncher() {
         permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
             if (result) {
@@ -257,7 +244,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
     }
-
     private fun showStationDetailBottomSheet(detail: DetailStation) {
         val bottomSheet = StationDetailBottomSheet(detail)
         view?.post {
@@ -266,7 +252,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
     }
-
     private fun observeSearchResult() {
         viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.selectedSuggestion.observe(viewLifecycleOwner) { suggestion ->
@@ -274,6 +259,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 val location = LatLng(suggestion.chargingStation!!.location!!.lat!!, suggestion.chargingStation.location!!.lon!!)
                 val cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 15f)
                 mMap.moveCamera(cameraUpdate)
+            }
+        }
+    }
+    private fun observeFavoriteStation() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            favoriteViewModel.selectedStationLocation.observe(viewLifecycleOwner) { location ->
+                shouldUpdateLocation = false
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
             }
         }
     }

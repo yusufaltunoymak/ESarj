@@ -9,7 +9,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,6 +55,7 @@ class SearchFragment : Fragment() {
                 return true
             }
         })
+
     }
 
     private fun observeData() {
@@ -86,15 +86,19 @@ class SearchFragment : Fragment() {
             findNavController().navigate(action)
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = adapter
     }
 
     override fun onResume() {
         super.onResume()
         binding.searchView.requestFocus()
-        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(binding.searchView, InputMethodManager.SHOW_IMPLICIT)
+        binding.searchView.postDelayed({
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(binding.searchView, InputMethodManager.SHOW_FORCED)
+        }, 1000)
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -29,5 +29,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.splashScreenFragment -> binding.bottomNavigationView.isGone = true
             }
         }
+        binding.bottomNavigationView.background = null
     }
 }

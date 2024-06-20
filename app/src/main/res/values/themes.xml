@@ -9,5 +9,9 @@
         <item name="windowActionBar">false</item>
     </style>
 
+    <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemRippleColor">@null</item>
+    </style>
+
     <style name="Theme.ESarj" parent="Base.Theme.ESarj" />
 </resources>
