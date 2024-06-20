@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "127984684428",
+    "project_id": "abtesting-64368",
+    "storage_bucket": "abtesting-64368.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127984684428:android:ec7cd6e4c2861c468adaa9",
+        "android_client_info": {
+          "package_name": "com.altunoymak.esarj"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127984684428-6tucriftlbotsvcqic4iue9m46qusges.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGfNa-n3a6Ezuot1khvid0f7HjGqdqUek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127984684428-6tucriftlbotsvcqic4iue9m46qusges.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

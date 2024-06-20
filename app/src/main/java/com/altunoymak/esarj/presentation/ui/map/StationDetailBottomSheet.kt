@@ -7,17 +7,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.altunoymak.esarj.data.model.chargingstationdetail.DetailStation
 import com.altunoymak.esarj.data.model.chargingstationdetail.Plug
 import com.altunoymak.esarj.databinding.FragmentStationDetailBottomSheetBinding
+import com.altunoymak.esarj.presentation.ui.favorite.FavoriteViewModel
+import com.altunoymak.esarj.util.toFavoriteStationEntity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class StationDetailBottomSheet(private val detail: DetailStation) : BottomSheetDialogFragment() {
 
     private var _binding: FragmentStationDetailBottomSheetBinding? = null
     private val binding get() = _binding!!
+    private val favoriteViewModel : FavoriteViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,10 +71,30 @@ class StationDetailBottomSheet(private val detail: DetailStation) : BottomSheetD
             "DC: Mevcut değil"
         }
         binding.directionsButton.setOnClickListener {
-            val gmmIntentUri = Uri.parse("google.navigation:q=${detail.location?.lat},${detail.location?.lon}")
+            val gmmIntentUri =
+                Uri.parse("google.navigation:q=${detail.location?.lat},${detail.location?.lon}")
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             startActivity(mapIntent)
+        }
+        detail.id?.let {
+            val station = detail.toFavoriteStationEntity()
+            val isFavoriteStationLiveData = favoriteViewModel.isFavoriteStation(it)
+            isFavoriteStationLiveData.observe(viewLifecycleOwner) { isFavorite ->
+                if (isFavorite) {
+                    binding.favoriteIv.isSelected = true
+                } else {
+                    binding.favoriteIv.isSelected = false
+                }
+            }
+
+            binding.favoriteIv.setOnClickListener {
+                if (binding.favoriteIv.isSelected) {
+                    favoriteViewModel.removeFavoriteStation(station)
+                } else {
+                    favoriteViewModel.addFavoriteStation(station)
+                }
+            }
         }
     }
 

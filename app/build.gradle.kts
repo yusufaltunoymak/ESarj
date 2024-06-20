@@ -7,6 +7,9 @@ plugins {
     id ("com.google.dagger.hilt.android")
     //Navigation
     id("androidx.navigation.safeargs")
+    //Firebase
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -84,6 +87,14 @@ dependencies {
     implementation (libs.android.maps.utils)
     implementation (libs.androidx.fragment.ktx)
     implementation (libs.androidx.activity.ktx)
+
+    //Firebase
+    implementation(libs.firebase.bom)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
+    implementation(libs.firebase.crashlytics)
 
     //Lottie
     implementation(libs.lottie)

@@ -24,7 +24,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:menu="@menu/menu"
-        app:labelVisibilityMode="unlabeled"
+        app:labelVisibilityMode="auto"
+        app:itemIconTint="@color/blue"
+        app:itemTextColor="@color/blue"
+        android:background="@color/white"
+        style="@style/BottomNavigationViewStyle"
+        app:itemBackground="@drawable/bottom_nav_item_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
