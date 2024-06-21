@@ -19,4 +19,5 @@
     <string name="search_charge_location_text">"Şarj Lokasyonu Ara"</string>
     <string name="error_text">"Hata"</string>
     <string name="internet_connection_text">"Lütfen internet bağlantınızı kontrol edin."</string>
+    <string name="not_found_charging_station">"Yakınında Şarj İstasyonu Bulunamadı"</string>
 </resources>

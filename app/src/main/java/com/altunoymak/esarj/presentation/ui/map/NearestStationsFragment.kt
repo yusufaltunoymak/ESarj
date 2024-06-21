@@ -1,5 +1,6 @@
 package com.altunoymak.esarj.presentation.ui.map
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -34,6 +35,7 @@ class NearestStationsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentNearestStationBinding.bind(view)
@@ -51,8 +53,12 @@ class NearestStationsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.viewState.collect { viewState ->
-                viewState.nearestList?.let {
-                    adapter.submitList(it)
+                if (viewState.nearestList.isNullOrEmpty()) {
+                    binding.errorMessageTv.visibility = View.VISIBLE
+                    binding.errorMessageTv.text = getString(R.string.not_found_charging_station)
+                }
+                else {
+                    adapter.submitList(viewState.nearestList)
                 }
                 viewState.isLoading?.let {
                     if (it) {
