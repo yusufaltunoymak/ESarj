@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.altunoymak.esarj.R
 import com.altunoymak.esarj.databinding.FragmentSearchBinding
 import com.altunoymak.esarj.presentation.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,10 +41,18 @@ class SearchFragment : Fragment() {
         initAdapter()
         observeData()
 
-        binding.searchToolbar.title = "Şarj Lokasyonu Ara"
+        binding.searchToolbar.title = getString(R.string.search_charge_location_text)
         binding.searchToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+        binding.searchView.setOnQueryTextFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                v.postDelayed({
+                    v.showKeyboard()
+                }, 1000)
+            }
+        }
+        binding.searchView.requestFocusFromTouch()
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -55,7 +65,11 @@ class SearchFragment : Fragment() {
                 return true
             }
         })
+    }
 
+    private fun View.showKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun observeData() {
@@ -89,16 +103,6 @@ class SearchFragment : Fragment() {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = adapter
     }
-
-    override fun onResume() {
-        super.onResume()
-        binding.searchView.requestFocus()
-        binding.searchView.postDelayed({
-            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(binding.searchView, InputMethodManager.SHOW_FORCED)
-        }, 1000)
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

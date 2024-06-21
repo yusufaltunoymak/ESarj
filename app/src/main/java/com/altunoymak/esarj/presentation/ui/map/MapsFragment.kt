@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -28,6 +27,7 @@ import com.altunoymak.esarj.presentation.ui.favorite.FavoriteViewModel
 import com.altunoymak.esarj.presentation.viewmodel.ChargingViewModel
 import com.altunoymak.esarj.presentation.viewmodel.SearchViewModel
 import com.altunoymak.esarj.util.ClusterItem
+import com.altunoymak.esarj.util.CustomAlertDialogBuilder
 import com.altunoymak.esarj.util.CustomClusterRenderer
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -39,6 +39,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
 class MapsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
@@ -162,9 +163,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             ) {
                 Snackbar.make(
                     binding.root,
-                    "Konumunuza erişmek için izin vermelisiniz",
+                    getString(R.string.location_permission_text),
                     Snackbar.LENGTH_INDEFINITE
-                ).setAction("İzin Ver") {
+                ).setAction(getString(R.string.permission_text)) {
                     permissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
                 }.show()
             } else {
@@ -172,13 +173,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         } else {
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                // Konum servisleri etkin değil, uyarı göster
-                AlertDialog.Builder(requireContext())
-                    .setMessage("Konum hizmetleri etkin değil. Lütfen konum hizmetlerini etkinleştirin.")
-                    .setPositiveButton("Tamam", null)
-                    .show()
+                CustomAlertDialogBuilder.createDialog(
+                    requireContext(),
+                    getString(R.string.warning_text),
+                    getString(R.string.location_service_text),
+                    getString(R.string.ok_text)
+                    )
             } else {
-                // trackBoolean'ı sıfırla
                 sharedPreferences.edit().putBoolean("trackBoolean", false).apply()
                 if (shouldUpdateLocation) {
                     binding.progressBar.visibility = View.VISIBLE
@@ -210,7 +211,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             if (!trackBoolean) {
                 mMap.clear()
                 val userLocation = LatLng(location.latitude, location.longitude)
-                mMap.addMarker(MarkerOptions().position(userLocation).title("Şuan Buradasın"))
+                mMap.addMarker(MarkerOptions().position(userLocation).title(getString(R.string.you_are_here_text)))
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15f))
                 sharedPreferences.edit().putBoolean("trackBoolean", true).apply()
                 if (shouldNavigate) {
@@ -227,20 +228,19 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private fun registerLauncher() {
         permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
             if (result) {
-                //permission granted
                 if (ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     if (shouldUpdateLocation) {
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
                         val lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                         if (lastLocation != null) {
                             val lastUserLocation = LatLng(lastLocation.latitude, lastLocation.longitude)
-                            mMap.addMarker(MarkerOptions().position(lastUserLocation).title("Şuan Buradasın"))
+                            mMap.addMarker(MarkerOptions().position(lastUserLocation).title(getString(R.string.you_are_here_text)))
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastUserLocation, 15f))
                         }
                     }
                 }
             } else {
-                Toast.makeText(requireActivity(), "İzin Gerekli!", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireActivity(), getString(R.string.need_to_permission), Toast.LENGTH_LONG).show()
             }
         }
     }

@@ -3,7 +3,6 @@ package com.altunoymak.esarj.presentation.ui.map
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,11 +39,7 @@ class StationDetailBottomSheet(private val detail: DetailStation) : BottomSheetD
         binding.addressTextView.text = detail.address
         binding.providerTextView.text = detail.provider
 
-
-        Log.d("StationDetailBottomSheet", "pointOfInterests: ${detail.pointOfInterests}")
-
         detail.pointOfInterests?.forEach { pointOfInterest ->
-            Log.d("StationDetailBottomSheet", "Creating chip for: $pointOfInterest")
             val chip = Chip(context)
             chip.text = pointOfInterest.toString()
             binding.chipGroup.addView(chip)

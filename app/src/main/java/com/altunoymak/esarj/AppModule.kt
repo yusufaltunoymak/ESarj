@@ -1,10 +1,13 @@
 package com.altunoymak.esarj
 
+import android.content.Context
 import com.altunoymak.esarj.data.ChargingAPI
+import com.altunoymak.esarj.data.repository.ConnectivityRepository
 import com.altunoymak.esarj.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -46,4 +49,10 @@ object AppModule {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(ChargingAPI::class.java)
+
+    @Singleton
+    @Provides
+    fun provideConnectivityRepository(@ApplicationContext context : Context): ConnectivityRepository {
+        return ConnectivityRepository(context)
+    }
 }

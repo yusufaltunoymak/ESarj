@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ESarj</string>
+    <string name="app_name">ŞarjBul</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="yol_tarifi_text">Yol Tarifi</string>
@@ -8,4 +8,15 @@
     <string name="map_text">Maps</string>
     <string name="favorite_text">Favorites</string>
     <string name="favourite_station">Favori İstasyonlarım</string>
+    <string name="favourite_empty">Favori İstasyon Bulunamadı</string>
+    <string name="location_permission_text">"Konum erişimi için izin gereklidir"</string>
+    <string name="warning_text">"Uyarı"</string>
+    <string name="permission_text">"İzin Ver"</string>
+    <string name="location_service_text">"Konum hizmetleri etkin değil. Lütfen konum hizmetlerinizi etkinleştirin"</string>
+    <string name="ok_text">"Tamam"</string>
+    <string name="you_are_here_text">"Şuan Buradasın"</string>
+    <string name="need_to_permission">"İzin Gerekli"</string>
+    <string name="search_charge_location_text">"Şarj Lokasyonu Ara"</string>
+    <string name="error_text">"Hata"</string>
+    <string name="internet_connection_text">"Lütfen internet bağlantınızı kontrol edin."</string>
 </resources>

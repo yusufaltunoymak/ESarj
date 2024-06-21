@@ -60,6 +60,7 @@ class ChargingViewModel @Inject constructor(private val repository: ChargingStat
         }
     }
 
+
     fun fetchChargingStationDetail(id: String) {
         viewModelScope.launch {
             repository.getChargingStationDetail(id).collect { response ->
