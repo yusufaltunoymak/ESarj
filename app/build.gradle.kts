@@ -89,15 +89,13 @@ dependencies {
     implementation (libs.androidx.activity.ktx)
 
     //Firebase
-    implementation(libs.firebase.bom)
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.storage)
-    implementation(libs.firebase.crashlytics)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-crashlytics")
 
-    //Lottie
-    implementation(libs.lottie)
 }
 kapt {
     correctErrorTypes = true

@@ -42,8 +42,17 @@ class FavoriteStationFragment : Fragment() {
         binding.favoriteRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.favoriteRv.adapter = favoriteStationAdapter
         viewLifecycleOwner.lifecycleScope.launch {
-            favoriteViewModel.favoriteStations.collect {
-                favoriteStationAdapter.submitList(it)
+            favoriteViewModel.favoriteStations.collect { stations ->
+                if (stations.isEmpty()) {
+                    binding.favoriteRv.visibility = View.GONE
+                    binding.emptyFavoriteTv.visibility = View.VISIBLE
+                    binding.favoriteIv.visibility = View.VISIBLE
+                } else {
+                    binding.favoriteRv.visibility = View.VISIBLE
+                    binding.emptyFavoriteTv.visibility = View.GONE
+                    binding.favoriteIv.visibility = View.GONE
+                    favoriteStationAdapter.submitList(stations)
+                }
             }
         }
         binding.favoriteToolbar.title = getString(R.string.favourite_station)

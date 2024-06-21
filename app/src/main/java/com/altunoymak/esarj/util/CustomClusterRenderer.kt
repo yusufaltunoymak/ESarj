@@ -33,10 +33,11 @@ class CustomClusterRenderer(
     ): BitmapDescriptor {
         val markerBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(markerBitmap)
-        val paint = Paint()
-        paint.isAntiAlias = true
+        val paint = Paint().apply {
+            isAntiAlias = true
+            this.color = color
+        }
 
-        paint.color = color
         canvas.drawCircle(width / 2f, height / 2f, width / 2f, paint)
 
         paint.color = ContextCompat.getColor(context, android.R.color.white)
@@ -49,7 +50,11 @@ class CustomClusterRenderer(
         drawable?.setBounds(left, top, left + iconSize, top + iconSize)
         drawable?.draw(canvas)
 
-        return BitmapDescriptorFactory.fromBitmap(markerBitmap)
+        val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(markerBitmap)
+
+        markerBitmap.recycle()
+
+        return bitmapDescriptor
     }
 
     override fun onBeforeClusterItemRendered(item: ClusterItem, markerOptions: MarkerOptions) {

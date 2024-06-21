@@ -42,7 +42,6 @@ class SearchViewModel @Inject constructor(private val repository: ChargingStatio
                             }
                         }
                     }
-
                     ResponseStatus.LOADING -> {
                         _viewState.update { viewState ->
                             viewState.copy(
@@ -52,7 +51,6 @@ class SearchViewModel @Inject constructor(private val repository: ChargingStatio
                             )
                         }
                     }
-
                     else -> {
                         _viewState.update { viewState ->
                             viewState.copy(

@@ -36,22 +36,25 @@
 
     <ImageView
         android:id="@+id/currentLocationIv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:padding="8dp"
+        android:background="@drawable/blue_button_background"
         android:src="@drawable/current_location_crosshair"
         app:layout_constraintBottom_toTopOf="@+id/nearestStationButton"
         app:layout_constraintEnd_toEndOf="@+id/nearestStationButton"
         app:layout_constraintStart_toStartOf="@+id/nearestStationButton" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageButton
         android:id="@+id/nearestStationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:padding="8dp"
         android:layout_marginBottom="12dp"
+        android:background="@drawable/blue_button_background"
         android:contentDescription="nearestFuel"
-        android:backgroundTint="@color/blue"
         android:src="@drawable/electric_refueling"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
