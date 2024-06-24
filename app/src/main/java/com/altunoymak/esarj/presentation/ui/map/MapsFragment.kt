@@ -26,6 +26,7 @@ import com.altunoymak.esarj.databinding.FragmentMapsBinding
 import com.altunoymak.esarj.presentation.ui.favorite.FavoriteViewModel
 import com.altunoymak.esarj.presentation.viewmodel.ChargingViewModel
 import com.altunoymak.esarj.presentation.viewmodel.SearchViewModel
+import com.altunoymak.esarj.presentation.viewmodel.StationDetailViewModel
 import com.altunoymak.esarj.util.ClusterItem
 import com.altunoymak.esarj.util.CustomAlertDialogBuilder
 import com.altunoymak.esarj.util.CustomClusterRenderer
@@ -51,6 +52,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private val viewModel: ChargingViewModel by activityViewModels()
     private val searchViewModel : SearchViewModel by activityViewModels()
     private val favoriteViewModel: FavoriteViewModel by activityViewModels()
+    private val stationDetailViewModel: StationDetailViewModel by activityViewModels()
 
     private var shouldUpdateLocation = true
     private var shouldNavigate = false
@@ -245,7 +247,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
     private fun showStationDetailBottomSheet(detail: DetailStation) {
-        val bottomSheet = StationDetailBottomSheet(detail)
+        stationDetailViewModel.setDetailStation(detail)
+        val bottomSheet = StationDetailBottomSheet()
         view?.post {
             if (isAdded) {
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
