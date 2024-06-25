@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.altunoymak.esarj.R
 import com.altunoymak.esarj.data.model.nearestchargingstation.NearestChargingStation
 import com.altunoymak.esarj.databinding.NearestRecyclerItemBinding
 
@@ -19,11 +20,11 @@ class NearestStationAdapter(private val onItemClicked : (NearestChargingStation)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val station = getItem(position)
-        holder.bind(station)
+        holder.bind(station,position)
     }
 
     inner class ViewHolder(private val binding: NearestRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(station: NearestChargingStation) {
+        fun bind(station: NearestChargingStation,position: Int) {
             binding.titleTextView.text = station.title
             binding.titleTextView.text = station.title
             binding.addressTextView.text = station.address
@@ -42,21 +43,19 @@ class NearestStationAdapter(private val onItemClicked : (NearestChargingStation)
                     "DC" -> dcPlugs.add(plug)
                 }
             }
-
             binding.acTextView.text = if (acPlugs.isNotEmpty()) {
-                "AC: ${acPlugs.size} adet / ${acPlugs[0].power}"
+                binding.root.context.getString(R.string.ac_text, acPlugs.size, acPlugs[0].power)
             } else {
                 "AC: Mevcut değil"
             }
 
             binding.dcTextView.text = if (dcPlugs.isNotEmpty()) {
-                "DC: ${dcPlugs.size} adet / ${dcPlugs[0].power}"
+                binding.root.context.getString(R.string.dc_text, dcPlugs.size, dcPlugs[0].power)
             } else {
                 "DC: Mevcut değil"
             }
-            binding.distanceTextView.text = "%.2f km".format(station.distance / 1000)
-            binding.numberTextView.text = (position + 1).toString()
-
+            binding.distanceTextView.text = binding.root.context.getString(R.string.distance_text, station.distance / 1000)
+            binding.numberTextView.text = binding.root.context.getString(R.string.number_text, position + 1)
 
         }
     }

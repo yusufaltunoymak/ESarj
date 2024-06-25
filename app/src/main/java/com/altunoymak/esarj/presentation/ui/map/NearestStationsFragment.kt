@@ -59,17 +59,21 @@ class NearestStationsFragment : Fragment() {
                 }
                 else {
                     adapter.submitList(viewState.nearestList)
+                    binding.errorMessageTv.visibility = View.GONE
                 }
                 viewState.isLoading?.let {
                     if (it) {
                         binding.progressBar.visibility = View.VISIBLE
+                        binding.errorMessageTv.visibility = View.GONE
                     } else {
                         binding.progressBar.visibility = View.GONE
                     }
                 }
                 viewState.errorMessage?.let {
-                    binding.errorMessageTv.visibility = View.VISIBLE
-                    binding.errorMessageTv.text = it
+                    if (viewState.nearestList.isNullOrEmpty()) {
+                        binding.errorMessageTv.visibility = View.VISIBLE
+                        binding.errorMessageTv.text = it
+                    }
                 }
             }
         }
