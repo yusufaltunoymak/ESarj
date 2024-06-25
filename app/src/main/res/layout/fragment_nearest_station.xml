@@ -46,6 +46,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         android:textColor="@color/blue"
         android:textSize="20sp"
         android:textAlignment="center"

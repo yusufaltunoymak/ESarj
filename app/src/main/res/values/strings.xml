@@ -20,4 +20,8 @@
     <string name="error_text">"Hata"</string>
     <string name="internet_connection_text">"Lütfen internet bağlantınızı kontrol edin."</string>
     <string name="not_found_charging_station">"Yakınında Şarj İstasyonu Bulunamadı"</string>
+    <string name="ac_text">AC: %1$d adet / %2$s</string>
+    <string name="dc_text">DC: %1$d adet / %2$s</string>
+    <string name="distance_text">%.2f km</string>
+    <string name="number_text">%d</string>
 </resources>
