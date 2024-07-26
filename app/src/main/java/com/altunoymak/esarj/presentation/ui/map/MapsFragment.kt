@@ -73,8 +73,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             requireActivity().getSharedPreferences("com.altunoymak.esarj", Context.MODE_PRIVATE)
         trackBoolean = false
         sharedPreferences.edit().putBoolean("trackBoolean", false).apply()
-
-
         return binding.root
     }
 
@@ -96,12 +94,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         observeSearchResult()
         observeFavoriteStation()
 
-        binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                findNavController().navigate(R.id.searchFragment)
-            }
+        binding.searchView.setOnClickListener {
+            findNavController().navigate(R.id.searchFragment)
         }
-
         binding.nearestStationButton.setOnClickListener {
             shouldUpdateLocation = true
             shouldNavigate = true
@@ -157,7 +152,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // İzin isteme
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
                     android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -180,7 +174,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                     getString(R.string.warning_text),
                     getString(R.string.location_service_text),
                     getString(R.string.ok_text)
-                    )
+                )
             } else {
                 sharedPreferences.edit().putBoolean("trackBoolean", false).apply()
                 if (shouldUpdateLocation) {

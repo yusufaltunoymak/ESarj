@@ -24,4 +24,9 @@
     <string name="dc_text">DC: %1$d adet / %2$s</string>
     <string name="distance_text">%.2f km</string>
     <string name="number_text">%d</string>
+    <string name="search">Search</string>
+    <string name="location_search_text">Lokasyon Ara</string>
+    <string name="current_location">Anlık Konum</string>
+    <string name="nearestFuel">Yakındaki İstasyonlar</string>
+    <string name="map_description">Elektrikli Şarj İstasyonları Haritası</string>
 </resources>

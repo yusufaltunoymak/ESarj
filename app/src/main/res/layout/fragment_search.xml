@@ -11,39 +11,53 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/blue"
-        android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/arrow_back_24px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="?attr/homeAsUpIndicator"
         app:titleTextColor="@color/white" />
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/search_view_background"
-        android:padding="8dp"
-        app:iconifiedByDefault="false"
+        android:layout_margin="24dp"
+        app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchToolbar"
-        app:queryBackground="@color/white"
-        app:queryHint="Lokasyon Ara"
-        android:textColor="@color/black"
-        android:textColorHint="@color/light_grey"/>
+        app:strokeColor="@color/search_hint_color"
+        app:strokeWidth="1dp">
+
+        <EditText
+            android:drawableStart="@drawable/ic_search"
+            android:id="@+id/search_view"
+            android:singleLine="true"
+            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:inputType="text"
+            android:layout_height="48dp"
+            android:maxWidth="488dp"
+            android:textColorHint="@color/search_hint_color"
+            android:layout_margin="8dp"
+            android:drawablePadding="8dp"
+            android:autofillHints="address"
+            android:backgroundTint="@android:color/transparent"
+            android:hint="@string/location_search_text"
+            app:boxStrokeWidth="0dp"/>
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/noResultsTextView"
