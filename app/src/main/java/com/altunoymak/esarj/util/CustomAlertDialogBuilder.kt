@@ -35,6 +35,7 @@ class CustomAlertDialogBuilder {
             }
 
             alertDialog.show()
+            alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         }
     }
 }
