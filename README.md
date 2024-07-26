@@ -22,6 +22,7 @@ Uygulama elektrikli araç sürücüleri için tasarlanmış olup kapsamı şu ş
 - OkHTTP
 - Retrofit
 - Google Maps API
+- Connectivity Manager
 
 ## 📸Screenshots
 
